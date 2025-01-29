@@ -3,7 +3,7 @@
 import rospy
 from std_msgs.msg import Float32MultiArray
 from simple_pid import PID
-from jetauto_interfaces.msg import motor_testWC   #ros messages
+from jetauto_interfaces.msg import motors_registers   #ros messages
 from jetauto_interfaces.msg import imu_encoder
 from std_msgs.msg import Float32
 
@@ -28,7 +28,7 @@ class WheelSpeedController:
         rospy.Subscriber("/wheel_setpoint", Float32MultiArray, self.setpoint_callback)
 
         # Publisher for the control output
-        self.control_publisher = rospy.Publisher("/jetauto_wheels_cmd", motor_testWC, queue_size=1)
+        self.control_publisher = rospy.Publisher("/jetauto_wheels_cmd", motors_registers, queue_size=1)
         self.new_setpoints = Float32MultiArray(data = [0, 0, 0, 0])
         #self.file = open("/home/jetauto/JetAuto_VA_ws/src/Datos_Graficas/PIDWheels2.txt","w")
         #self.file.write("t\tsp\tw1\tw2\tw3\tw4\n")

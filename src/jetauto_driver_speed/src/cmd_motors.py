@@ -4,7 +4,7 @@ import os
 import sys
 import rospy
 
-from jetauto_interfaces.msg import motor_testWC   #ros messages
+from jetauto_interfaces.msg import motors_registers   #ros messages
 #from driverMotors.motors import EncoderMotorController 
 from driverMotors import EncoderMotorController
 
@@ -15,7 +15,7 @@ class JetAutoMotorTestWC:
     def __init__(self):
         rospy.init_node('CMD_Motors', anonymous=False)   
 
-        rospy.Subscriber('/jetauto_wheels_cmd', motor_testWC, self.test_callback)  
+        rospy.Subscriber('/jetauto_wheels_cmd', motors_registers, self.test_callback)  
 
         self.motor_controller = EncoderMotorController(1, pulse_per_cycle = 3960)
         self.vx = 0

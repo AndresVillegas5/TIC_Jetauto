@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 
 import rospy
 import numpy as np
@@ -50,12 +51,54 @@ class Paths:
         y = -r * 2 * np.pi / self.tf * np.sin(2 * np.pi * self.t / self.tf) + b * 2 * np.pi / self.tf * np.cos(2 * np.pi * self.t / self.tf)
         return x, y
 
-    def line(self, start = [0, 0], end = [12, 10]):
-        x_start, y_start = start
-        x_end, y_end = end
-        x = np.linspace(x_start, x_end, len(self.t))
-        y = np.linspace(y_start, y_end, len(self.t))
-        return x, y
+    #def line(self, start = [0, 0], end = [12, 10]):
+     #   x_start, y_start = start
+      #  x_end, y_end = end
+       # x = np.linspace(x_start, x_end, len(self.t))
+        #y = np.linspace(y_start, y_end, len(self.t))
+        #return x, y
+
+    def line(self, points):
+        """
+        Generates a linear trajectory connecting multiple points.
+
+        Args:
+            points (list of lists or tuples): A list of points [[x1, y1], [x2, y2], ..., [xn, yn]].
+
+        Returns:
+            tuple: (x, y, theta_d) where:
+                - x, y are arrays of coordinates along the trajectory.
+                - theta_d is the orientation along the trajectory.
+        """
+        if len(points) < 2:
+            raise ValueError("At least two points are required to define a line.")
+
+        # Initialize trajectory arrays
+        x, y = [], []
+        
+        # Loop through each segment between consecutive points
+        for i in range(len(points) - 1):
+            x_start, y_start = points[i]
+            x_end, y_end = points[i + 1]
+            
+            # Generate segment points
+            t_segment = np.linspace(0, 1, len(self.t) // (len(points) - 1))
+            x_segment = np.linspace(x_start, x_end, len(t_segment))
+            y_segment = np.linspace(y_start, y_end, len(t_segment))
+            
+            # Append segment to trajectory
+            x.extend(x_segment)
+            y.extend(y_segment)
+
+        # Ensure trajectory arrays are numpy arrays
+        x = np.array(x)
+        y = np.array(y)
+
+        # Compute orientation
+        dx_dt = np.gradient(x) / self.tf
+        dy_dt = np.gradient(y) / self.tf
+        theta_d = np.arctan2(dy_dt, dx_dt)
+        return x, y, theta_d#, dx_dt, dy_dt
         
     def line_d(self, start = [0, 0], end = [12, 10]):
         x_start, y_start = start

@@ -63,7 +63,7 @@ add_message_files(
    ObjectsInfo.msg
    Float64List.msg
    PixelPosition.msg
-   motor_testWC.msg
+   motors_registers.msg
    encoder_pulsos.msg
    vel_wheels.msg
    imu_encoder.msg

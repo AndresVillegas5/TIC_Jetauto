@@ -74,8 +74,8 @@ class PoseControl:
         
         if path_type == 'ellipse':
             #Circulo/Elipse
-            a = 1.0 #eje principal (x)
-            b =1.0 #ejesecundario (y)
+            a = 0.75 #eje principal (x)
+            b = 0.75 #ejesecundario (y)
             center = [0, -b]   # centro
             self.goalx, self.goaly = pth.ellipse(a, b, center)
             self.goalx_d, self.goaly_d = pth.ellipse_d(a, b, center)
